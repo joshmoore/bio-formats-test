@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="targets" parallel="tests" thread-count="${testng.threadCount}">
+  <test annotations="JDK" name="${testname}" verbose="2">
+    <parameter name="id" value="${filename}"/>
+    <parameter name="inMemory" value="False"/>
+    <parameter name="bioformats_revision" value="${buildNumber}"/>
+    <groups>
+      <run>
+        <exclude name="disabled"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="${testclass}"/>
+    </classes>
+  </test>
+</suite>
