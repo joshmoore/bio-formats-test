@@ -73,6 +73,25 @@
     <maven>3.0.5</maven>
   </prerequisites>
 
+  <!-- NB: for parent project -->
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+    <repository>
+      <id>unidata.releases</id>
+      <url>https://artifacts.unidata.ucar.edu/content/repositories/unidata-releases</url>
+      <snapshots><enabled>false</enabled></snapshots>
+      </repository>
+    <repository>
+      <id>ome</id>
+      <name>OME Artifactory</name>
+      <url>https://artifacts.openmicroscopy.org/artifactory/maven/</url>
+    </repository>
+  </repositories>
+
   <scm>
     <connection>scm:git:https://github.com/ome/ome-common-java</connection>
     <developerConnection>scm:git:git@github.com:ome/ome-common-java</developerConnection>
