@@ -6,514 +6,51 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ome</groupId>
-  <artifactId>pom-bio-formats</artifactId>
+  <artifactId>bio-formats-test</artifactId>
   <version>5.8.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
 
-  <name>Bio-Formats projects</name>
-  <description>Umbrella project for the Bio-Formats software project.</description>
-  <url>https://www.openmicroscopy.org/bio-formats</url>
-  <inceptionYear>2005</inceptionYear>
-
-  <modules>
-    <module>components/forks/turbojpeg</module>
-    <module>components/autogen</module>
-    <module>components/formats-api</module>
-    <module>components/formats-bsd</module>
-    <module>components/formats-gpl</module>
-    <module>components/bundles/bioformats_package</module>
-    <module>components/bio-formats-plugins</module>
-    <module>components/bundles/loci_tools</module>
-    <module>components/bio-formats-tools</module>
-    <module>components/test-suite</module>
-    <module>docs/sphinx</module>
-  </modules>
-
-  <properties>
-    <!-- If two artifacts on the classpath use two different versions of the
-         same dependency, behavior is inconsistent at best, and often broken.
-         The following properties facilitate consistency of dependency
-         versions between various projects in the SciJava software stack.
-         When possible, we advise using the relevant groupId and version
-         properties for your dependencies rather than hardcoding them. -->
-
-    <release.version>5.8.0-SNAPSHOT</release.version>
-    <date>${maven.build.timestamp}</date>
-    <year>2017</year>
-    <project.rootdir>${basedir}</project.rootdir>
-    <imagej1.version>1.48s</imagej1.version>
-    <jgoodies-forms.version>1.7.2</jgoodies-forms.version>
-    <log4j.version>1.2.17</log4j.version>
-    <logback.version>1.1.1</logback.version>
-    <lwf-stubs.version>5.3.0</lwf-stubs.version>
-    <mipav-stubs.version>5.3.0</mipav-stubs.version>
-    <metakit.version>5.3.0</metakit.version>
-    <slf4j.version>1.7.6</slf4j.version>
-    <kryo.version>2.24.0</kryo.version>
-    <testng.version>6.8</testng.version>
-    <guava.version>17.0</guava.version>
-    <ome-common.version>5.3.2</ome-common.version>
-    <ome-model.version>5.5.4</ome-model.version>
-    <ome-poi.version>5.3.1</ome-poi.version>
-    <ome-mdbtools.version>5.3.0</ome-mdbtools.version>
-    <ome-jai.version>0.1.0</ome-jai.version>
-    <ome-codecs.version>0.2.0</ome-codecs.version>
-    <jxrlib.version>0.2.1</jxrlib.version>
-
-    <!-- NB: Avoid platform encoding warning when copying resources. -->
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-    <!-- NB: Specify formatting of the maven.build.timestamp property. -->
-    <maven.build.timestamp.format>d MMMMM yyyy</maven.build.timestamp.format>
-
-    <!-- NB: Override argLine property for extra maven-surefire-plugin args. -->
-    <argLine/>
-  </properties>
-
-  <build>
-    <!-- It is nice for "mvn" with no arguments to do something reasonable. -->
-    <defaultGoal>install</defaultGoal>
-
-    <sourceDirectory>${project.basedir}/src</sourceDirectory>
-    <testSourceDirectory>${project.basedir}/test</testSourceDirectory>
-    <resources>
-      <resource>
-        <directory>${project.basedir}/src</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-          <exclude>**/package.html</exclude>
-          <exclude>**/*.properties</exclude>
-        </excludes>
-      </resource>
-      <resource>
-        <targetPath>META-INF/lib</targetPath>
-        <directory>${project.basedir}/lib</directory>
-      </resource>
-      <resource>
-        <directory>${project.basedir}/src</directory>
-        <includes>
-          <include>**/*.properties</include>
-          <include>**/*.cpp</include>
-        </includes>
-        <filtering>true</filtering>
-      </resource>
-      <resource>
-        <directory>${project.basedir}</directory>
-        <includes>
-          <include>utils/*.cpp</include>
-        </includes>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
-    <testResources>
-      <testResource>
-        <directory>${project.basedir}/test</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-          <exclude>**/package.html</exclude>
-        </excludes>
-      </testResource>
-    </testResources>
-
-    <plugins>
-      <!-- Create -sources.jar when building. -->
-      <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>
-
-      <!-- Add Implementation-Build entry to JAR manifest. -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>buildnumber-maven-plugin</artifactId>
-      </plugin>
-
-      <!-- Enable 'license:' goals. -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-        <configuration>
-          <licenseName>gpl_v2</licenseName>
-          <organizationName>Open Microscopy Environment:
-  - Board of Regents of the University of Wisconsin-Madison
-  - Glencoe Software, Inc.
-  - University of Dundee</organizationName>
-            <!-- NB: Avoid stomping on variant copyright holders. -->
-            <canUpdateCopyright>false</canUpdateCopyright>
-          <roots>
-            <root>src</root>
-            <root>test</root>
-            <root>utils</root>
-            <root>doc</root>
-          </roots>
-        </configuration>
-      </plugin>
-    </plugins>
-
-    <!-- We use wagon-webdav-jackrabbit 1.0 for deploys, since it is
-         compatible with both Maven 2.2.x and Maven 3.0.x cross-platform. -->
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav-jackrabbit</artifactId>
-        <version>1.0</version>
-      </extension>
-    </extensions>
-
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.4</version>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>2.5</version>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.1</version>
-          <!-- Require the Java 7 platform. -->
-          <configuration>
-            <source>1.7</source>
-            <target>1.7</target>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.8</version>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.1</version>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.1</version>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>2.4</version>
-          <!-- Always add classpath to JAR manifests. -->
-          <configuration>
-            <skipIfEmpty>true</skipIfEmpty>
-            <archive>
-              <manifest>
-                <addClasspath>true</addClasspath>
-                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-              </manifest>
-              <manifestEntries>
-                <!-- Add SCM revision from buildnumber plugin, if available. -->
-                <Implementation-Build>${buildNumber}</Implementation-Build>
-                <!-- Add a formatted timestamp for the build. -->
-                <Implementation-Date>${maven.build.timestamp}</Implementation-Date>
-              </manifestEntries>
-            </archive>
-            <excludes>
-              <exclude>**/*.cpp</exclude>
-              <exclude>**/*.h</exclude>
-            </excludes>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>test-jar</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <!-- NB: The same version declaration and configuration block also
-               appears in the <reporting> section, and must be kept in sync. -->
-          <version>2.9.1</version>
-          <configuration>
-            <javadocDirectory>${project.basedir}/src</javadocDirectory>
-            <maxmemory>1024m</maxmemory>
-            <!-- Workaround for javadoc bug when classes in the default
-                 package access classes from non-default packages. See:
-                 http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5101868 -->
-            <use>false</use>
-            <links>
-              <!-- Java 7 -->
-              <link>http://docs.oracle.com/javase/7/docs/api/</link>
-
-              <!-- ImageJ1 -->
-              <link>http://jenkins.imagej.net/job/ImageJ1-javadoc/javadoc/</link>
-            </links>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-plugin-plugin</artifactId>
-          <version>3.2</version>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>2.4.2</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.apache.maven.scm</groupId>
-              <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.9</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>2.6</version>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.3</version>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>2.2.1</version>
-          <!-- Build source artifact in addition to main artifact. -->
-          <executions>
-            <execution>
-              <goals>
-                <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.16</version>
-          <!-- Make sure that:
-               A) unit tests run with sufficient RAM allocated;
-               B) unit tests do not pop a Java dock icon on OS X;
-               C) additional args can be given via argLine property;
-
-               Sometimes, one needs to pass JVM options to the JVM
-               running the unit tests, such as -verbose:class or
-               -Djava.awt.headless=true.
-
-               Unfortunately, maven-surefire does not expose a
-               command-line interface to do so, therefore let's
-               simulate it by re-using the property 'argLine' to
-               specify those options. -->
-          <configuration>
-            <argLine>-Xms512m -Xmx512m -Dapple.awt.UIElement="true" ${argLine}</argLine>
-          </configuration>
-        </plugin>
-
-        <!-- Build Number Maven plugin -
-             http://mojo.codehaus.org/buildnumber-maven-plugin/
-             This plugin embeds a build number in the JAR manifest. -->
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>buildnumber-maven-plugin</artifactId>
-          <version>1.2</version>
-          <!-- Record SCM revision in manifest. -->
-          <executions>
-            <execution>
-              <phase>validate</phase>
-              <goals>
-                <goal>create</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-            <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
-            <revisionOnScmFailure>UNKNOWN</revisionOnScmFailure>
-          </configuration>
-        </plugin>
-
-        <!-- Exec Maven plugin -
-        http://mojo.codehaus.org/exec-maven-plugin/
-        This plugin launches a Java class using Maven. -->
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <version>1.2.1</version>
-        </plugin>
-
-        <!-- License Maven plugin -
-             http://mojo.codehaus.org/license-maven-plugin/
-             This plugin manages project licenses and source file headers. -->
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>license-maven-plugin</artifactId>
-          <version>1.6</version>
-          <configuration>
-            <projectName>${project.description}</projectName>
-            <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-            <canUpdateDescription>true</canUpdateDescription>
-            <canUpdateCopyright>true</canUpdateCopyright>
-            <extraExtensions>
-              <bsh>java</bsh>
-              <config>properties</config>
-              <ijm>java</ijm>
-            </extraExtensions>
-          </configuration>
-        </plugin>
-
-        <!-- Versions Maven plugin -
-             http://mojo.codehaus.org/versions-maven-plugin/
-             Check for new plugin versions using
-             "mvn versions:display-plugin-updates" -->
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>versions-maven-plugin</artifactId>
-          <version>2.1</version>
-        </plugin>
-
-        <!-- Eclipse-specific configuration
-
-             With a recent version of m2e, Eclipse's Maven binding, it is no
-             longer enough to configure plugins; they will be ignored by
-             default. But we really want the buildnumber and the jar plugin to
-             do their job. So now we have to add lifecycle mappings in addition
-             to configuring the plugins.
-
-             Let's hope that m2e remains the only IDE Maven binding that
-             requires such a lot of additional work just to get the same result
-             as plain Maven would produce out of the box. -->
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.codehaus.gmaven</groupId>
-                    <artifactId>gmaven-plugin</artifactId>
-                    <versionRange>[1.4,)</versionRange>
-                    <goals>
-                      <goal>execute</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>buildnumber-maven-plugin</artifactId>
-                    <versionRange>[1.0,)</versionRange>
-                    <goals>
-                      <goal>create</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <execute>
-                      <runOnIncremental>true</runOnIncremental>
-                      <runOnConfiguration>true</runOnConfiguration>
-                    </execute>
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <versionRange>[2.0,)</versionRange>
-                    <goals>
-                      <goal>jar</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <execute>
-                      <runOnIncremental>true</runOnIncremental>
-                      <runOnConfiguration>true</runOnConfiguration>
-                    </execute>
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>net.imagej</groupId>
-                    <artifactId>imagej-maven-plugin</artifactId>
-                    <versionRange>[0.1.0,)</versionRange>
-                    <goals>
-                      <goal>set-rootdir</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
-
-  <reporting>
-    <plugins>
-      <!-- Generate javadocs as part of site generation. -->
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <!-- NB: The following version declaration and configuration block
-             are fully replicated from the pluginManagement section. This
-             is necessary because many versions of maven-site-plugin
-             (including 3.3) do not respect the pluginManagement values.
-             See: http://jira.codehaus.org/browse/MSITE-443
-             While the maven-site-plugin documentation states that it
-             "search[es] the same groupId/artifactId in the
-             build.pluginManagement.plugins section", this claim
-             unfortunately does not seem to reflect reality. -->
-        <version>2.9.1</version>
-        <configuration>
-          <javadocDirectory>${project.basedir}/src</javadocDirectory>
-          <maxmemory>1024m</maxmemory>
-          <!-- Workaround for javadoc bug when classes in the default
-               package access classes from non-default packages. See:
-               http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5101868 -->
-          <use>false</use>
-          <links>
-            <!-- Java 7 -->
-            <link>http://docs.oracle.com/javase/7/docs/api/</link>
-
-            <!-- ImageJ1 -->
-            <link>http://jenkins.imagej.net/job/ImageJ1-javadoc/javadoc/</link>
-          </links>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
-
-  <prerequisites>
-    <maven>2.2.1</maven>
-  </prerequisites>
-
+  <name>Bio-Formats testing framework</name>
+  <description>A framework for manual and automated testing, in particular data-driven Bio-Formats testing.</description>
+  <url>http://www.openmicroscopy.org/site/products/bio-formats</url>
+  <inceptionYear>2006</inceptionYear>
   <organization>
     <name>Open Microscopy Environment</name>
     <url>http://www.openmicroscopy.org/</url>
   </organization>
+  <licenses>
+    <license>
+      <name>GNU General Public License v2+</name>
+      <url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
-  <issueManagement>
-    <system>Trac</system>
-    <url>https://trac.openmicroscopy.org/ome</url>
-  </issueManagement>
-
-  <ciManagement>
-    <system>Jenkins</system>
-    <url>https://ci.openmicroscopy.org/</url>
-  </ciManagement>
+  <developers>
+    <developer>
+      <name>The OME Team</name>
+      <email>ome-devel@lists.openmicroscopy.org.uk</email>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor><name>Chris Allan</name></contributor>
+    <contributor><name>Colin Blackburn</name></contributor>
+    <contributor><name>Mark Carroll</name></contributor>
+    <contributor><name>Jean-Marie Burel</name></contributor>
+    <contributor><name>Sébastien Besson</name></contributor>
+    <contributor><name>Helen Flynn</name></contributor>
+    <contributor><name>David Gault</name></contributor>
+    <contributor><name>Mark Hiner</name></contributor>
+    <contributor><name>Roger Leigh</name></contributor>
+    <contributor><name>Simone Leo</name></contributor>
+    <contributor><name>Melissa Linkert</name></contributor>
+    <contributor><name>Allison McArton</name></contributor>
+    <contributor><name>Josh Moore</name></contributor>
+    <contributor><name>Andrew Patterson</name></contributor>
+    <contributor><name>Blazej Pindelski</name></contributor>
+    <contributor><name>Curtis Rueden</name></contributor>
+    <contributor><name>Christoph Sommer</name></contributor>
+    <contributor><name>Bjoern Thiel</name></contributor>
+  </contributors>
 
   <mailingLists>
     <mailingList>
@@ -532,12 +69,9 @@
     </mailingList>
   </mailingLists>
 
-  <scm>
-    <connection>scm:git:git://github.com/openmicroscopy/bioformats</connection>
-    <developerConnection>scm:git:git@github.com:openmicroscopy/bioformats</developerConnection>
-    <tag>HEAD</tag>
-    <url>http://github.com/openmicroscopy/bioformats</url>
-  </scm>
+  <prerequisites>
+    <maven>3.0.5</maven>
+  </prerequisites>
 
   <!-- NB: for parent project -->
   <repositories>
@@ -547,65 +81,715 @@
       <url>https://repo.maven.apache.org/maven2</url>
     </repository>
     <repository>
+      <id>unidata.releases</id>
+      <url>https://artifacts.unidata.ucar.edu/content/repositories/unidata-releases</url>
+      <snapshots><enabled>false</enabled></snapshots>
+      </repository>
+    <repository>
       <id>ome</id>
       <name>OME Artifactory</name>
       <url>https://artifacts.openmicroscopy.org/artifactory/maven/</url>
     </repository>
   </repositories>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>central</id>
-      <name>Central Repository</name>
-      <url>https://repo.maven.apache.org/maven2</url>
-      <layout>default</layout>
-    </pluginRepository>
-  </pluginRepositories>
-
+  <scm>
+    <connection>scm:git:https://github.com/ome/ome-common-java</connection>
+    <developerConnection>scm:git:git@github.com:ome/ome-common-java</developerConnection>
+    <tag>HEAD</tag>
+    <url>http://github.com/ome/ome-common-java</url>
+  </scm>
+  <issueManagement>
+    <system>Trac</system>
+    <url>https://trac.openmicroscopy.org/ome</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Jenkins</system>
+    <url>https://ci.openmicroscopy.org/</url>
+  </ciManagement>
   <distributionManagement>
-    <repository>
-      <id>ome.staging</id>
-      <name>OME Staging Repository</name>
-      <url>https://artifacts.openmicroscopy.org/artifactory/ome.staging</url>
-    </repository>
     <snapshotRepository>
-      <id>ome.snapshots</id>
-      <name>OME Snapshots Repository</name>
-      <url>https://artifacts.openmicroscopy.org/artifactory/ome.snapshots</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
 
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>formats-gpl</artifactId>
+      <version>${formats-gpl.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.perf4j</groupId>
+      <artifactId>perf4j</artifactId>
+      <version>0.9.13</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>${testng.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>nl.javadude.assumeng</groupId>
+      <artifactId>assumeng</artifactId>
+      <version>1.2.4</version>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <!-- If two artifacts on the classpath use two different versions of the
+         same dependency, behavior is inconsistent at best, and often broken.
+         The following properties facilitate consistency of dependency
+         versions between various projects in the SciJava software stack.
+         When possible, we advise using the relevant groupId and version
+         properties for your dependencies rather than hardcoding them. -->
+
+    <bioformats.version>5.7.3</bioformats.version>
+    <formats-gpl.version>${bioformats.version}</formats-gpl.version>
+    <logback.version>1.1.1</logback.version>
+    <slf4j.version>1.7.6</slf4j.version>
+    <testng.version>6.8</testng.version>
+
+    <!-- NB: Avoid platform encoding warning when copying resources. -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- NB: Specify formatting of the maven.build.timestamp property. -->
+    <maven.build.timestamp.format>d MMMMM yyyy</maven.build.timestamp.format>
+
+    <!-- NB: Override argLine property for extra maven-surefire-plugin args. -->
+    <argLine/>
+
+    <!-- Test properties -->
+    <testng.toplevel-config></testng.toplevel-config>
+    <testng.directory-prefix></testng.directory-prefix>
+    <testng.directory-list></testng.directory-list>
+    <testng.filename></testng.filename>
+    <testng.directory></testng.directory>
+    <testng.omexmlDirectory></testng.omexmlDirectory>
+    <testng.configDirectory></testng.configDirectory>
+    <testng.configSuffix></testng.configSuffix>
+    <testng.multiplier></testng.multiplier>
+    <lurawave.license></lurawave.license>
+    <testng.in-memory></testng.in-memory>
+    <testng.memory>512m</testng.memory>
+
+    <testng.threadCount>2</testng.threadCount>
+    <testng.groups></testng.groups>
+    <testconfig>src/test/resources/testng.xml</testconfig>
+
+    <user.language>en</user.language>
+    <user.country>US</user.country>
+   </properties>
+
+  <build>
+    <!-- It is nice for "mvn" with no arguments to do something reasonable. -->
+    <defaultGoal>install</defaultGoal>
+
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources-filtered</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
+
+    <plugins>
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.7.0</version>
+        <!-- Require the Java 7 platform. -->
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+
+      <!-- Enable 'license:' goals. -->
+      <!-- License Maven plugin -
+           http://mojo.codehaus.org/license-maven-plugin/
+           This plugin manages project licenses and source file headers. -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>1.14</version>
+        <configuration>
+          <licenseName>bsd_2</licenseName>
+          <organizationName>Open Microscopy Environment:
+  - Board of Regents of the University of Wisconsin-Madison
+  - Glencoe Software, Inc.
+  - University of Dundee</organizationName>
+          <projectName>Common package for I/O and related utilities</projectName>
+          <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+          <canUpdateDescription>true</canUpdateDescription>
+          <!-- NB: Avoid stomping on variant copyright holders. -->
+          <canUpdateCopyright>false</canUpdateCopyright>
+          <roots>
+            <root>src</root>
+          </roots>
+          <extraExtensions>
+            <bsh>java</bsh>
+            <config>properties</config>
+            <ijm>java</ijm>
+          </extraExtensions>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.20.1</version>
+        <configuration>
+          <systemPropertyVariables>
+            <testng.toplevel-config>${testng.toplevel-config}</testng.toplevel-config>
+            <testng.directory-prefix>${testng.directory-prefix}</testng.directory-prefix>
+            <testng.directory-list>${testng.directory-list}</testng.directory-list>
+            <testng.filename>${testng.filename}</testng.filename>
+            <testng.directory>${testng.directory}</testng.directory>
+            <testng.omexmlDirectory>${testng.omexmlDirectory}</testng.omexmlDirectory>
+            <testng.configDirectory>${testng.configDirectory}</testng.configDirectory>
+            <testng.configSuffix>${testng.configSuffix}</testng.configSuffix>
+            <testng.multiplier>${testng.multiplier}</testng.multiplier>
+            <lurawave.license>${lurawave.license}</lurawave.license>
+            <testng.in-memory>${testng.in-memory}</testng.in-memory>
+          </systemPropertyVariables>
+          <argLine>-Xmx${testng.memory} -Duser.language=${user.language} -Duser.country=${user.country}</argLine>
+          <suiteXmlFiles>
+            <suiteXmlFile>${testconfig}</suiteXmlFile>
+          </suiteXmlFiles>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <appendAssemblyId>false</appendAssemblyId>
+        </configuration>
+        <executions>
+          <execution>
+            <id>uberjar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>bftest</finalName>
+              <descriptors>
+                <descriptor>assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.0.0</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.0.2</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.5.2</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.0.2</version>
+        <!-- Always add classpath to JAR manifests. -->
+        <configuration>
+          <skipIfEmpty>true</skipIfEmpty>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+            <manifestEntries>
+              <!-- Add SCM revision from buildnumber plugin, if available. -->
+              <Implementation-Build>${buildNumber}</Implementation-Build>
+              <!-- Add a formatted timestamp for the build. -->
+              <Implementation-Date>${maven.build.timestamp}</Implementation-Date>
+            </manifestEntries>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <!-- NB: The same version declaration and configuration block also
+             appears in the <reporting> section, and must be kept in sync. -->
+        <version>3.0.0</version>
+        <configuration>
+          <failOnError>false</failOnError>
+          <links>
+            <link>http://docs.oracle.com/javase/7/docs/api/</link>
+          </links>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.5</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-provider-gitexe</artifactId>
+            <version>1.9</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.0.2</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.7</version>
+      </plugin>
+
+      <!-- Create -sources.jar when building. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
+        <!-- Build source artifact in addition to main artifact. -->
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Build Number Maven plugin -
+           http://mojo.codehaus.org/buildnumber-maven-plugin/
+           This plugin embeds a build number in the JAR manifest. -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>1.4</version>
+        <!-- Record SCM revision in manifest. -->
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
+          <revisionOnScmFailure>UNKNOWN</revisionOnScmFailure>
+        </configuration>
+      </plugin>
+
+      <!-- Versions Maven plugin -
+           http://mojo.codehaus.org/versions-maven-plugin/
+           Check for new plugin versions using
+           "mvn versions:display-plugin-updates" -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.5</version>
+      </plugin>
+
+    </plugins>
+  </build>
+
   <profiles>
-    <!-- Run integration tests when "-P run-its" is passed.
-         This works using the maven-invoker-plugin. -->
     <profile>
-      <id>run-its</id>
+      <!-- Build javadocs by default, but not when running tests -->
+      <id>javadoc</id>
+      <activation>
+        <property>
+          <name>!testng.directory</name>
+        </property>
+      </activation>
       <build>
-        <defaultGoal>integration-test</defaultGoal>
         <plugins>
           <plugin>
-            <artifactId>maven-invoker-plugin</artifactId>
-            <version>1.8</version>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <!-- NB: The same version declaration and configuration block also
+                 appears in the <reporting> section, and must be kept in sync. -->
+            <version>2.10.4</version>
             <configuration>
-              <debug>${invoker.debug}</debug>
-              <showErrors>true</showErrors>
-              <streamLogs>true</streamLogs>
-              <projectsDirectory>src/it</projectsDirectory>
-              <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
-              <pomIncludes>
-                <pomInclude>*/pom.xml</pomInclude>
-              </pomIncludes>
-              <settingsFile>src/it/settings.xml</settingsFile>
-              <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
-              <preBuildHookScript>setup.bsh</preBuildHookScript>
-              <postBuildHookScript>verify.bsh</postBuildHookScript>
+              <failOnError>false</failOnError>
+              <links>
+                <link>http://docs.oracle.com/javase/7/docs/api/</link>
+              </links>
             </configuration>
             <executions>
               <execution>
-                <id>integration-test</id>
+                <id>attach-javadocs</id>
                 <goals>
-                  <goal>install</goal>
-                  <goal>run</goal>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>testname-property</id>
+      <activation>
+        <property>
+          <name>filename</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.0.0</version>
+            <executions>
+              <execution>
+                <id>regex-testname-property</id>
+                <goals>
+                  <goal>regex-property</goal>
+                </goals>
+                <configuration>
+                  <name>testname</name>
+                  <value>${filename}</value>
+                  <regex>/</regex>
+                  <replacement>_</replacement>
+                  <failIfNoMatch>false</failIfNoMatch>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- Tests for leaking file handles -->
+      <id>test-file-handles</id>
+      <properties>
+        <testclass>loci.tests.testng.FileHandleTest</testclass>
+        <testconfig>target/test-classes/testng-single.xml</testconfig>
+      </properties>
+    </profile>
+    <profile>
+      <!-- Tests for open bytes performance -->
+      <id>test-open-bytes-performance</id>
+      <properties>
+        <testclass>loci.tests.testng.OpenBytesPerformanceTest</testclass>
+        <testconfig>target/test-classes/testng-single.xml</testconfig>
+      </properties>
+    </profile>
+    <profile>
+      <!-- Tests for TIFF writing (conversion) -->
+      <id>test-tiff-writer</id>
+      <properties>
+        <testclass>loci.tests.testng.TiffWriterTest</testclass>
+        <testconfig>target/test-classes/testng-single.xml</testconfig>
+      </properties>
+    </profile>
+    <profile>
+      <!-- Tests for file writing (conversion) -->
+      <id>test-convert</id>
+      <properties>
+        <testng.testname>Writer tests</testng.testname>
+        <testng.group>all</testng.group>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.20.1</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>target/test-classes/testng-reader-order.xml</suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- Tests for file reading (all) -->
+      <id>test-all</id>
+      <properties>
+        <testng.testname>All reader tests</testng.testname>
+        <testng.group>all</testng.group>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.20.1</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>target/test-classes/testng-reader-dot-order.xml</suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- Generate configuration files for test suite -->
+      <id>gen-config</id>
+      <properties>
+        <testng.testname>Configuration generation</testng.testname>
+        <testng.group>config</testng.group>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.20.1</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>target/test-classes/testng-reader-dot.xml</suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- Generate configuration files for test suite (duplicate of gen-config) -->
+      <id>test-config</id>
+      <properties>
+        <testng.testname>Configuration generation</testng.testname>
+        <testng.group>config</testng.group>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.20.1</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>target/test-classes/testng-reader-dot.xml</suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- Generate configuration files for test suite -->
+      <id>gen-config-xml</id>
+      <properties>
+        <testng.testname>OME-XML configuration generation</testng.testname>
+        <testng.group>config-xml</testng.group>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.20.1</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>target/test-classes/testng-reader-dot.xml</suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- Tests for file reading (automated) -->
+      <id>test-automated</id>
+      <properties>
+        <testng.testname>Automated reader tests</testng.testname>
+        <testng.group>automated</testng.group>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.20.1</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>target/test-classes/testng-reader-order.xml</suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- Tests for file reading (fast; run automated tests in group 'fast') -->
+      <id>test-fast</id>
+      <properties>
+        <testng.testname>Fast reader tests</testng.testname>
+        <testng.group>fast</testng.group>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.20.1</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>target/test-classes/testng-reader-dot-order.xml</suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- Tests for file reading (pixels; run automated tests in group 'pixels') -->
+      <id>test-pixels</id>
+      <properties>
+        <testng.testname>Pixels reader tests</testng.testname>
+        <testng.group>pixels</testng.group>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.20.1</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>target/test-classes/testng-reader-dot-order.xml</suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- Tests for file reading (xml; run automated tests in group 'xml') -->
+      <id>test-xml</id>
+      <properties>
+        <testng.testname>XML reader tests</testng.testname>
+        <testng.group>xml</testng.group>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.20.1</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>target/test-classes/testng-reader-dot-order.xml</suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- Tests for file reading (type; run automated tests in group 'type') -->
+      <id>test-type</id>
+      <properties>
+        <testng.testname>Type reader tests</testng.testname>
+        <testng.group>type</testng.group>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.20.1</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>target/test-classes/testng-reader-dot-order.xml</suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <!-- Stage releases with nexus -->
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.8</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>false</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+
+          <!-- gpg release signing -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
                 </goals>
               </execution>
             </executions>
@@ -615,4 +799,20 @@
     </profile>
   </profiles>
 
+  <reporting>
+    <plugins>
+      <!-- Generate javadocs as part of site generation. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <failOnError>false</failOnError>
+          <links>
+            <link>http://docs.oracle.com/javase/7/docs/api/</link>
+          </links>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>

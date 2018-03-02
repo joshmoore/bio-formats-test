@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Bio-Formats integration tests" parallel="instances" thread-count="${testng.threadCount}">
+  <listeners>
+    <listener class-name="loci.tests.testng.OrderingListener"/>
+  </listeners>
+  <test name="${testng.testname}">
+    <groups>
+      <run>
+        <include name="${testng.group}"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="loci.tests.testng.FormatReaderTestFactory"/>
+    </classes>
+  </test>
+</suite>
