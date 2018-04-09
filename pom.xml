@@ -369,27 +369,6 @@
       </plugin>
 
       <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <!-- NB: The same version declaration and configuration block also
-             appears in the <reporting> section, and must be kept in sync. -->
-        <version>3.0.0</version>
-        <configuration>
-          <failOnError>false</failOnError>
-          <links>
-            <link>http://docs.oracle.com/javase/7/docs/api/</link>
-          </links>
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
         <artifactId>maven-plugin-plugin</artifactId>
         <version>3.5.1</version>
       </plugin>
@@ -480,9 +459,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <!-- NB: The same version declaration and configuration block also
-                 appears in the <reporting> section, and must be kept in sync. -->
-            <version>2.10.4</version>
+            <version>3.0.0</version>
             <configuration>
               <failOnError>false</failOnError>
               <links>
@@ -803,21 +780,4 @@
       </build>
     </profile>
   </profiles>
-
-  <reporting>
-    <plugins>
-      <!-- Generate javadocs as part of site generation. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.0</version>
-        <configuration>
-          <failOnError>false</failOnError>
-          <links>
-            <link>http://docs.oracle.com/javase/7/docs/api/</link>
-          </links>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
 </project>
