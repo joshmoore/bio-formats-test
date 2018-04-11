@@ -249,7 +249,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>license-maven-plugin</artifactId>
-        <version>1.14</version>
+        <version>1.15</version>
         <configuration>
           <licenseName>bsd_2</licenseName>
           <organizationName>Open Microscopy Environment:
@@ -274,7 +274,7 @@
 
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.20.1</version>
+        <version>2.21.0</version>
         <configuration>
           <systemPropertyVariables>
             <testng.toplevel-config>${testng.toplevel-config}</testng.toplevel-config>
@@ -326,7 +326,7 @@
 
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.0.2</version>
+        <version>3.1.0</version>
       </plugin>
 
       <plugin>
@@ -369,29 +369,8 @@
       </plugin>
 
       <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <!-- NB: The same version declaration and configuration block also
-             appears in the <reporting> section, and must be kept in sync. -->
-        <version>3.0.0</version>
-        <configuration>
-          <failOnError>false</failOnError>
-          <links>
-            <link>http://docs.oracle.com/javase/7/docs/api/</link>
-          </links>
-        </configuration>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>3.5</version>
+        <version>3.5.1</version>
       </plugin>
 
       <plugin>
@@ -480,9 +459,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <!-- NB: The same version declaration and configuration block also
-                 appears in the <reporting> section, and must be kept in sync. -->
-            <version>2.10.4</version>
+            <version>3.0.0</version>
             <configuration>
               <failOnError>false</failOnError>
               <links>
@@ -568,7 +545,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.20.1</version>
+            <version>2.21.0</version>
             <configuration>
               <suiteXmlFiles>
                 <suiteXmlFile>target/test-classes/testng-reader-order.xml</suiteXmlFile>
@@ -803,21 +780,4 @@
       </build>
     </profile>
   </profiles>
-
-  <reporting>
-    <plugins>
-      <!-- Generate javadocs as part of site generation. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.0</version>
-        <configuration>
-          <failOnError>false</failOnError>
-          <links>
-            <link>http://docs.oracle.com/javase/7/docs/api/</link>
-          </links>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
 </project>
