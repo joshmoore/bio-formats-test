@@ -198,6 +198,7 @@
     <testng.omexmlDirectory></testng.omexmlDirectory>
     <testng.configDirectory></testng.configDirectory>
     <testng.configSuffix></testng.configSuffix>
+    <testng.allow-missing></testng.allow-missing>
     <testng.multiplier></testng.multiplier>
     <lurawave.license></lurawave.license>
     <testng.in-memory></testng.in-memory>
@@ -285,6 +286,7 @@
             <testng.omexmlDirectory>${testng.omexmlDirectory}</testng.omexmlDirectory>
             <testng.configDirectory>${testng.configDirectory}</testng.configDirectory>
             <testng.configSuffix>${testng.configSuffix}</testng.configSuffix>
+            <testng.allow-missing>${testng.allow-missing}</testng.allow-missing>
             <testng.multiplier>${testng.multiplier}</testng.multiplier>
             <lurawave.license>${lurawave.license}</lurawave.license>
             <testng.in-memory>${testng.in-memory}</testng.in-memory>
