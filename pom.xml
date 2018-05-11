@@ -290,6 +290,7 @@
             <testng.multiplier>${testng.multiplier}</testng.multiplier>
             <lurawave.license>${lurawave.license}</lurawave.license>
             <testng.in-memory>${testng.in-memory}</testng.in-memory>
+            <bioformats_can_do_upgrade_check>false</bioformats_can_do_upgrade_check>
           </systemPropertyVariables>
           <argLine>-Xmx${testng.memory} -Duser.language=${user.language} -Duser.country=${user.country}</argLine>
           <suiteXmlFiles>
