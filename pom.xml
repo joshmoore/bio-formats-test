@@ -179,6 +179,8 @@
     <slf4j.version>1.7.6</slf4j.version>
     <testng.version>6.8</testng.version>
 
+    <surefire-plugin.version>2.22.0</surefire-plugin.version>
+
     <!-- NB: Avoid platform encoding warning when copying resources. -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -275,7 +277,7 @@
 
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.0</version>
+        <version>${surefire-plugin.version}</version>
         <configuration>
           <systemPropertyVariables>
             <testng.toplevel-config>${testng.toplevel-config}</testng.toplevel-config>
@@ -548,7 +550,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.0</version>
+            <version>${surefire-plugin.version}</version>
             <configuration>
               <suiteXmlFiles>
                 <suiteXmlFile>target/test-classes/testng-reader-order.xml</suiteXmlFile>
@@ -569,7 +571,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.0</version>
+            <version>${surefire-plugin.version}</version>
             <configuration>
               <suiteXmlFiles>
                 <suiteXmlFile>target/test-classes/testng-reader-dot-order.xml</suiteXmlFile>
@@ -590,7 +592,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.0</version>
+            <version>${surefire-plugin.version}</version>
             <configuration>
               <suiteXmlFiles>
                 <suiteXmlFile>target/test-classes/testng-reader-dot.xml</suiteXmlFile>
@@ -611,7 +613,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.0</version>
+            <version>${surefire-plugin.version}</version>
             <configuration>
               <suiteXmlFiles>
                 <suiteXmlFile>target/test-classes/testng-reader-dot.xml</suiteXmlFile>
@@ -632,7 +634,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.0</version>
+            <version>${surefire-plugin.version}</version>
             <configuration>
               <suiteXmlFiles>
                 <suiteXmlFile>target/test-classes/testng-reader-dot.xml</suiteXmlFile>
@@ -653,7 +655,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.0</version>
+            <version>${surefire-plugin.version}</version>
             <configuration>
               <suiteXmlFiles>
                 <suiteXmlFile>target/test-classes/testng-reader-order.xml</suiteXmlFile>
@@ -674,7 +676,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.0</version>
+            <version>${surefire-plugin.version}</version>
             <configuration>
               <suiteXmlFiles>
                 <suiteXmlFile>target/test-classes/testng-reader-dot-order.xml</suiteXmlFile>
@@ -695,7 +697,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.0</version>
+            <version>${surefire-plugin.version}</version>
             <configuration>
               <suiteXmlFiles>
                 <suiteXmlFile>target/test-classes/testng-reader-dot-order.xml</suiteXmlFile>
@@ -716,7 +718,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.0</version>
+            <version>${surefire-plugin.version}</version>
             <configuration>
               <suiteXmlFiles>
                 <suiteXmlFile>target/test-classes/testng-reader-dot-order.xml</suiteXmlFile>
@@ -737,7 +739,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.0</version>
+            <version>${surefire-plugin.version}</version>
             <configuration>
               <suiteXmlFiles>
                 <suiteXmlFile>target/test-classes/testng-reader-dot-order.xml</suiteXmlFile>
